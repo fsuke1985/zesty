@@ -9,6 +9,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,3 +30,12 @@ jobs:
         run: |
           pwd
           ls -altr
+      
+      - name: Authentication to GCP Artifact Registry 
+        run: |-
+          gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ secrets.GCP_ARTIFACTREG_URL }}" ./app
+          docker push "${{ secrets.GCP_ARTIFACTREG_URL }}"
