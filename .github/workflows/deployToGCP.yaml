@@ -35,7 +35,10 @@ jobs:
         run: |-
           gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 
-      - name: Build and Push Container
+      - name: Build Container
         run: |-
           docker build -t "${{ secrets.GCP_ARTIFACTREG_URL }}" ./app
-          docker push "${{ secrets.GCP_ARTIFACTREG_URL }}"
+      
+      - name: Push Container
+        run: |-
+          docker push "${{ secrets.GCP_ARTIFACTREG_URL }}"/main:latest
