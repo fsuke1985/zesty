@@ -1,4 +1,9 @@
 job:
+  on:
+    push:
+      branches:
+        - main
+        
   job_id:
     steps:
       - id: "auth"
