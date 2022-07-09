@@ -47,5 +47,6 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v0'
         with:
           image: ${{ secrets.GCP_ARTIFACTREG_URL }}/main:latest
-          service: 'nextjs'
+          service: 'main'
+          region: asia-northeast1
         
