@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Container
         run: |-
-          docker build -t "${{ secrets.GCP_ARTIFACTREG_URL }}" ./app
+          docker build -t "${{ secrets.GCP_ARTIFACTREG_URL }}"/main:latest ./app
       
       - name: Push Container
         run: |-
