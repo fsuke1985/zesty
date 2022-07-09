@@ -42,3 +42,10 @@ jobs:
       - name: Push Container
         run: |-
           docker push "${{ secrets.GCP_ARTIFACTREG_URL }}"/main:latest
+
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          image: "${{ secrets.GCP_ARTIFACTREG_URL }}"/main:latest
+          service: 'nextjs'
+        
