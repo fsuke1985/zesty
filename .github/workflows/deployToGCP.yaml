@@ -21,3 +21,12 @@ jobs:
 
       - name: "Use gcloud CLI"
         run: gcloud info
+  
+  DEPLOYING:
+    name: GCP
+    runs-on: ubuntu-latest
+    steps:
+      - name: debuging
+        run: |
+          pwd
+          ls -altr
