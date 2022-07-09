@@ -36,5 +36,7 @@
 		"github-cli": "latest",
 		"aws-cli": "latest",
 		"sshd": "latest"
-	}
+	},
+
+	"postCreateCommand": "docker-compose build && docker-compose up -d"
 }
