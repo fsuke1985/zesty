@@ -13,8 +13,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: database
-    networks:
-          - mongo-compose-network
+    # networks:
+    #       - mongo-compose-network
     # Add "forwardPorts": ["27017"] to **devcontainer.json** to forward MongoDB locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
@@ -27,8 +27,8 @@ services:
     environment:
     - NGINX_PORT=80
 
-networks:
-  mongo-compose-network:
-    driver: bridge
+# networks:
+#   mongo-compose-network:
+#     driver: bridge
 volumes:
   mongodb-data: null
