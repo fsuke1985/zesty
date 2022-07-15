@@ -1,15 +1,15 @@
-name: issue comment workflows
-on:
-  issue_comment:
-    types: [created,edited,deleted]
+# name: issue comment workflows
+# on:
+#   issue_comment:
+#     types: [created,edited,deleted]
 
-jobs:
-  issue_commented:
-    name: Issue comment
-    if: ${{ !github.event.issue.pull_request }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo comment on issue $NUMBER
-        env:
-          NUMBER: ${{ github.event.issue.number }}
+# jobs:
+#   issue_commented:
+#     name: Issue comment
+#     if: ${{ !github.event.issue.pull_request }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - run: |
+#           echo comment on issue $NUMBER
+#         env:
+#           NUMBER: ${{ github.event.issue.number }}
