@@ -1,7 +1,9 @@
+// @ts-nocheck
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import Form from "../../utilities/Forms";
 import { useState } from "react";
+import React from 'react'
 
 const Login: NextPage = () => {
     const [email, setEmail] = useState("");
@@ -36,7 +38,7 @@ const Login: NextPage = () => {
       return isValid;
     };
   
-    const authenticate = (e) => {
+    const authenticate = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
   
       const validate = validateLogin();
@@ -49,7 +51,7 @@ const Login: NextPage = () => {
       }
     };
   
-    const togglePassword = (e) => {
+    const togglePassword = (e: React.FormEvent<HTMLFormElement>) => {
       if (showPassword) {
         setShowPassword(false);
       } else {
