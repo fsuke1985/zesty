@@ -21,8 +21,13 @@ jobs:
       - name: Get short sha with HEAD
         id: sha
         run: |
-          echo "sha-short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "${{ env.sha-short }}"
+          echo 'SHA_SHORT<<EOF' >> $GITHUB_ENV
+          git rev-parse --short HEAD >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Get ENV
+        run: |
+          env
 
       - id: "auth"
         uses: "google-github-actions/auth@v0"
