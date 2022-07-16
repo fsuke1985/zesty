@@ -39,5 +39,5 @@
 		"sshd": "latest"
 	},
 
-	"postCreateCommand": "docker-compose build && docker-compose up -d"
+	"postCreateCommand": "docker-compose build && docker-compose up -d && gcloud auth login --cred-file=<(echo $GCP_CREDENTIALS)"
 }
