@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: "!contains(github.event.head_commit.message, '[nodep]')"
+    # if: "!contains(github.event.head_commit.message, '[nodep]')"
 
     steps:
       - uses: actions/checkout@v3
@@ -28,11 +28,6 @@ jobs:
 
       - name: "Use gcloud CLI"
         run: gcloud info
-  
-      - name: debuging
-        run: |
-          pwd
-          ls -altr
       
       - name: Authentication to GCP Artifact Registry 
         run: |-
