@@ -25,10 +25,6 @@ jobs:
           git rev-parse --short HEAD >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
-      - name: Get ENV
-        run: |
-          env
-
       - id: "auth"
         uses: "google-github-actions/auth@v0"
         with:
@@ -58,6 +54,6 @@ jobs:
           image: ${{ secrets.GCP_ARTIFACTREG_URL }}/main:latest
           service: 'main'
           region: asia-northeast1
-          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --tag=pr-${{ github.event.pull_request.number }} --timeout=10 --cpu-throttling --revision-suffix=${{ github.event.pull_request.number }}"
+          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --tag=pr-${{ env.SHA_SHORT }} --timeout=10 --cpu-throttling --revision-suffix=${{ env.SHA_SHORT }}"
 
         
