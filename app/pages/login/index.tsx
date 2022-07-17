@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Form from "../../utilities/Forms";
 import { useState } from "react";
 import React from 'react'
+import { loginrequest } from '~/service/auth';
 
 const Login: NextPage = () => {
     const [email, setEmail] = useState("");
@@ -37,6 +38,11 @@ const Login: NextPage = () => {
       }
       return isValid;
     };
+
+    const handlelogin = async () => {
+      await loginrequest();
+
+    }
   
     const authenticate = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -47,8 +53,9 @@ const Login: NextPage = () => {
         setValidate({});
         setEmail("");
         setPassword("");
-        alert("Successfully Login");
+        //alert("Successfully Login");
       }
+        handlelogin()
     };
   
     const togglePassword = (e: React.FormEvent<HTMLFormElement>) => {
