@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-    baseURL: '/api/v1',
+    // baseURL: '/api/',
     timeout: 1000,
     headers: {'X-Requested-With': 'XMLHttpRequest'},
     withCredentials: true
