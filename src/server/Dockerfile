@@ -7,4 +7,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
 FROM alpine:latest AS production
 COPY --from=builder /builder/app ./
+EXPOSE 4000
 CMD ["./app"]
