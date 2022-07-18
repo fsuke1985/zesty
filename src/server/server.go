@@ -1,14 +1,20 @@
 package main
 
 import (
-	"io"
+	"encoding/json"
 	"log"
 	"net/http"
 )
 
 func main() {
+	m := map[string]string{"from": "server Go"}
+
 	helloHandler := func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "kousuke futamura\n")
+
+		resJson, _ := json.Marshal(m)
+		w.Header().Add("Content-Type", "application/json; charset=UTF-8")
+		w.Write(resJson)
+		w.WriteHeader(200)
 	}
 
 	http.HandleFunc("/", helloHandler)
