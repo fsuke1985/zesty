@@ -16,7 +16,11 @@
 				"dbaeumer.vscode-eslint",
 				"mongodb.mongodb-vscode",
 				"googlecloudtools.cloudcode",
-				"golang.Go"
+				"golang.Go",
+				"GitHub.vscode-pull-request-github",
+				"donjayamanne.githistory",
+				"mhutchie.git-graph",
+				"waderyan.gitblame"
 			],
 			"settings": { 
 				"go.toolsManagement.checkForUpdates": "local",
