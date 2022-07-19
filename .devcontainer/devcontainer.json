@@ -3,7 +3,7 @@
 // Update the VARIANT arg in docker-compose.yml to pick a Node.js version
 {
 	"name": "Node.js & go",
-	"dockerComposeFile": "docker-compose.yml",
+	"dockerComposeFile": ["./docker-compose.yml", "../docker-compose.yml"],
 	"service": "app",
 	"workspaceFolder": "/workspace",
 
@@ -15,7 +15,6 @@
 			"extensions": [
 				"dbaeumer.vscode-eslint",
 				"mongodb.mongodb-vscode",
-				"googlecloudtools.cloudcode",
 				"golang.Go",
 				"GitHub.vscode-pull-request-github",
 				"donjayamanne.githistory",
@@ -25,7 +24,7 @@
 			"settings": { 
 				"go.toolsManagement.checkForUpdates": "local",
 				"go.useLanguageServer": true,
-				"go.gopath": "/go"
+				"go.gopath": "/go"			
 			}
 		}
 	},
