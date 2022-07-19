@@ -12,7 +12,11 @@ func main() {
 	helloHandler := func(w http.ResponseWriter, req *http.Request) {
 
 		resJson, _ := json.Marshal(m)
+
 		w.Header().Add("Content-Type", "application/json; charset=UTF-8")
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Access-Control-Allow-Credentials", "true")
+
 		w.Write(resJson)
 		w.WriteHeader(200)
 	}
