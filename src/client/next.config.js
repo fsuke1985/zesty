@@ -2,6 +2,7 @@
 const path = require('path')
 
 const nextConfig = {
+  basePath: '/codespaces01',
   reactStrictMode: true,
   swcMinify: true,
   output: 'standalone',
