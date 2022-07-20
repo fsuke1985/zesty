@@ -7,7 +7,10 @@ import (
 )
 
 func main() {
-	m := map[string]string{"from": "server Go"}
+	m := map[string]string{
+		"from":           "server Go",
+		"Authentication": "200",
+	}
 
 	helloHandler := func(w http.ResponseWriter, req *http.Request) {
 
