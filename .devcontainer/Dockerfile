@@ -1,21 +1,18 @@
-# BaseImages to ubuntu 20.04.4 LTS a.k.a focal
-ARG VARIANT
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:${VARIANT}
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/go/.devcontainer/base.Dockerfile
+# [Choice] Go version (use -bullseye variants on local arm64/Apple Silicon): 1, 1.16, 1.17, 1-bullseye, 1.16-bullseye, 1.17-bullseye, 1-buster, 1.16-buster, 1.17-buster
+ARG VARIANT=1-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
 
-ARG INSTALL_ZSH="true"
-ARG ENABLE_NONROOT_DOCKER="true"
-ARG USERNAME
+# [Choice] Node.js version: lts/*, 16, 14, 12, 10
+ARG NODE_VERSION="lts/*"
+RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c ". /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
-# see also script librarys
-# if you have an application you want to install, download it here
-# https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
-COPY library-scripts/*.sh /tmp/library-scripts/
-RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}"
-ENV DOCKER_BUILDKIT=1
-RUN apt-get update && ash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}"
-RUN apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+# [Optional] Uncomment this section to install additional OS packages.
+# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+#     && apt-get -y install --no-install-recommends <your-package-list-here>
 
-VOLUME [ "/var/lib/docker" ]
-ENTRYPOINT ["/usr/local/share/docker-init.sh"]
-CMD ["sleep", "infinity"]
-      
+# [Optional] Uncomment the next line to use go get to install anything else you need
+# RUN go get -x <your-dependency-or-tool>
+
+# [Optional] Uncomment this line to install global node packages.
+# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
