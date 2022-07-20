@@ -1,8 +1,10 @@
-name: Deploying GCP
+name: Deploying GCP With ClientSide
 on:
   push:
     branches:
-      - main
+      - 'main'
+    paths:
+      - 'src/client/**'
 
 jobs:
   GCPSetup:
@@ -52,8 +54,8 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v0'
         with:
           image: ${{ secrets.GCP_ARTIFACTREG_URL }}/main:latest
-          service: 'main'
+          service: 'codespaces01-client'
           region: asia-northeast1
-          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --tag=pr-${{ env.SHA_SHORT }} --timeout=10 --cpu-throttling --revision-suffix=${{ env.SHA_SHORT }}"
+          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --port=8080 --no-allow-unauthenticated --tag=pr-${{ env.SHA_SHORT }} --timeout=10 --cpu-throttling --revision-suffix=${{ env.SHA_SHORT }}"
 
         
