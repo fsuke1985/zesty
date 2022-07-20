@@ -3,9 +3,21 @@
 // Update the VARIANT arg in docker-compose.yml to pick a Node.js version
 {
 	"name": "Node.js & go",
-	"dockerComposeFile": ["./docker-compose.yml", "../docker-compose.yml"],
-	"service": "app",
-	"workspaceFolder": "/workspace",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": { 
+			"VARIANT": "16",
+			"ENABLE_NONROOT_DOCKER": "true",
+			"USERNAME": "vscode",
+			"INSTALL_ZSH": "true"
+		}
+	},
+
+	// Configure docker-in-docker 
+	// see also https://github.com/microsoft/vscode-dev-containers/blob/main/containers/docker-in-docker/README.md
+	"runArgs": ["--init", "--privileged"],
+	"overrideCommand": false,
+	"mounts": ["source=dind-var-lib-docker,target=/var/lib/docker,type=volume"],
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -38,14 +50,18 @@
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 	"features": {
-		"docker-in-docker": "latest",
 		"docker-from-docker": "latest",
 		"kubectl-helm-minikube": "latest",
 		"git": "latest",
 		"git-lfs": "latest",
 		"github-cli": "latest",
 		"aws-cli": "latest",
-		"sshd": "latest"
+		"sshd": "latest",
+		"docker-in-docker": {
+			"version": "latest",
+			"moby": true,
+			"dockerDashComposeVersion": "v1"
+		}
 	},
 
 	"postCreateCommand": "/bin/bash .devcontainer/postCreateCommand.sh"

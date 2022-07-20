@@ -1,19 +1,20 @@
 # BaseImages to ubuntu 20.04.4 LTS a.k.a focal
-FROM mcr.microsoft.com/vscode/devcontainers/base:focal
+ARG VARIANT
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:${VARIANT}
+
+ARG INSTALL_ZSH="true"
+ARG ENABLE_NONROOT_DOCKER="true"
+ARG USERNAME
 
 # see also script librarys
 # if you have an application you want to install, download it here
 # https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
 COPY library-scripts/*.sh /tmp/library-scripts/
-RUN bash /tmp/library-scripts/common-debian.sh && \
-    bash /tmp/library-scripts/docker-debian.sh && \
-    bash /tmp/library-scripts/go-debian.sh && \
-    bash /tmp/library-scripts/node-debian.sh
-
-#USER vscode
-# GCP CLI Installed
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-cli -y
+RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}"
+RUN bash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}"
+RUN apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 ENTRYPOINT ["/usr/local/share/docker-init.sh"]
+VOLUME [ "/var/lib/docker" ]
 CMD ["sleep", "infinity"]
       
