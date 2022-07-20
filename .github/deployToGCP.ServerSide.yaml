@@ -1,0 +1,61 @@
+name: Deploying GCP with ServerSide
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'src/server/**'
+
+jobs:
+  GCPSetup:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+
+    # if: "!contains(github.event.head_commit.message, '[nodep]')"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get short sha with HEAD
+        id: sha
+        run: |
+          echo 'SHA_SHORT<<EOF' >> $GITHUB_ENV
+          git rev-parse --short HEAD >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+
+      - name: "Use gcloud CLI"
+        run: gcloud info
+      
+      - name: Authentication to GCP Artifact Registry 
+        run: |-
+          gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+
+      - name: Build Container
+        run: |-
+          docker build -t "${{ secrets.GCP_ARTIFACTREG_URL }}"/codespace01server:latest ./src/server
+      
+      - name: Push Container
+        run: |-
+          docker push "${{ secrets.GCP_ARTIFACTREG_URL }}"/codespace01server:latest
+
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          image: ${{ secrets.GCP_ARTIFACTREG_URL }}/codespace01server:latest
+          service: 'codespaces01-server'
+          region: asia-northeast1
+          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --tag=pr-${{ env.SHA_SHORT }} --timeout=10 --cpu-throttling --revision-suffix=${{ env.SHA_SHORT }}"
+
+        
