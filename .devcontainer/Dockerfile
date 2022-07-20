@@ -11,10 +11,11 @@ ARG USERNAME
 # https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
 COPY library-scripts/*.sh /tmp/library-scripts/
 RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}"
-RUN bash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}"
+ENV DOCKER_BUILDKIT=1
+RUN apt-get update && ash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}"
 RUN apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
-ENTRYPOINT ["/usr/local/share/docker-init.sh"]
 VOLUME [ "/var/lib/docker" ]
+ENTRYPOINT ["/usr/local/share/docker-init.sh"]
 CMD ["sleep", "infinity"]
       
