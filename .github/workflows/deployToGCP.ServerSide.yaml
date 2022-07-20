@@ -56,6 +56,6 @@ jobs:
           image: ${{ secrets.GCP_ARTIFACTREG_URL }}/codespace01server:latest
           service: 'codespaces01-server'
           region: asia-northeast1
-          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --tag=pr-${{ env.SHA_SHORT }} --timeout=10 --cpu-throttling --revision-suffix=${{ env.SHA_SHORT }}"
+          flags: "--cpu=1 --memory=128Mi --concurrency=1 --max-instances=1 --port=4000 --tag=pr-${{ env.SHA_SHORT }} --timeout=10 --cpu-throttling --revision-suffix=${{ env.SHA_SHORT }}"
 
         
