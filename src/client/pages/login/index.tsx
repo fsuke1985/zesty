@@ -5,6 +5,12 @@ import Form from "../../utilities/Forms";
 import { useState } from "react";
 import React from 'react'
 import { loginrequest } from '~/service/auth';
+import { useForm, SubmitHandler} from 'react-hook-form';
+
+type Inputs = {
+  email: string,
+  password: string
+};
 
 const Login: NextPage = () => {
     const [email, setEmail] = useState("");
@@ -12,50 +18,10 @@ const Login: NextPage = () => {
     const [remember, setRemember] = useState(false);
     const [validate, setValidate] = useState({});
     const [showPassword, setShowPassword] = useState(false);
-  
-    const validateLogin = () => {
-      let isValid = true;
-  
-      let validator = Form.validator({
-        email: {
-          value: email,
-          isRequired: true,
-          isEmail: true,
-        },
-        password: {
-          value: password,
-          isRequired: true,
-          minLength: 6,
-        },
-      });
-  
-      if (validator !== null) {
-        setValidate({
-          validate: validator.errors,
-        });
-  
-        isValid = false;
-      }
-      return isValid;
-    };
+    const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
 
-    const handlelogin = async () => {
-      await loginrequest();
-
-    }
-  
-    const authenticate = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-  
-      const validate = validateLogin();
-  
-      if (validate) {
-        setValidate({});
-        setEmail("");
-        setPassword("");
-        //alert("Successfully Login");
-      }
-        handlelogin()
+    const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
+        return false
     };
   
     const togglePassword = (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,53 +46,28 @@ const Login: NextPage = () => {
                   <form
                     className="auth-form"
                     method="POST"
-                    onSubmit={authenticate}
+                    onSubmit={handleSubmit(authenticate)}
                     autoComplete={"off"}
                   >
                     <div className="email mb-3">
                       <input
-                        type="email"
-                        className={`form-control ${
-                          validate.validate && validate.validate.email
-                            ? "is-invalid "
-                            : ""
-                        }`}
-                        id="email"
-                        name="email"
-                        value={email}
+                        className="form-control "
                         placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)}
+                        //onChange={(e) => setEmail(e.target.value)}
+                        { ...register("email", { required: true})}
                       />
-    
-                      <div
-                        className={`invalid-feedback text-start ${
-                          validate.validate && validate.validate.email
-                            ? "d-block"
-                            : "d-none"
-                        }`}
-                      >
-                        {validate.validate && validate.validate.email
-                          ? validate.validate.email[0]
-                          : ""}
-                      </div>
+                      {errors.email && <span>This field is required</span>}
                     </div>
     
                     <div className="password mb-3">
                       <div className="input-group">
                         <input
                           type={showPassword ? "text" : "password"}
-                          className={`form-control ${
-                            validate.validate && validate.validate.password
-                              ? "is-invalid "
-                              : ""
-                          }`}
-                          name="password"
-                          id="password"
-                          value={password}
+                          className="form-control "
                           placeholder="Password"
-                          onChange={(e) => setPassword(e.target.value)}
+                          { ...register("password", { required: true, maxLength: 10})}
                         />
-    
+                        {errors.password && <span>This field is required</span>}
                         <button
                           type="button"
                           className="btn btn-outline-primary btn-sm"
@@ -138,18 +79,6 @@ const Login: NextPage = () => {
                             }
                           ></i>{" "}
                         </button>
-    
-                        <div
-                          className={`invalid-feedback text-start ${
-                            validate.validate && validate.validate.password
-                              ? "d-block"
-                              : "d-none"
-                          }`}
-                        >
-                          {validate.validate && validate.validate.password
-                            ? validate.validate.password[0]
-                            : ""}
-                        </div>
                       </div>
     
                       <div className="extra mt-3 row justify-content-between">
