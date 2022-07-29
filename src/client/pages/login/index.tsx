@@ -67,7 +67,6 @@ const Login: NextPage = () => {
                           placeholder="Password"
                           { ...register("password", { required: true, maxLength: 10})}
                         />
-                        {errors.password && <span>This field is required</span>}
                         <button
                           type="button"
                           className="btn btn-outline-primary btn-sm"
@@ -80,7 +79,7 @@ const Login: NextPage = () => {
                           ></i>{" "}
                         </button>
                       </div>
-    
+                      {errors.password && <span>This field is required</span>}
                       <div className="extra mt-3 row justify-content-between">
                         <div className="col-6">
                           <div className="form-check">
