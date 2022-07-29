@@ -2,7 +2,7 @@
 const path = require('path')
 
 const nextConfig = {
-  basePath: '/codespaces01',
+  basePath: '/zesty',
   reactStrictMode: true,
   swcMinify: true,
   output: 'standalone',
