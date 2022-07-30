@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy:ghp": "next build && next export && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && /usr/bin/git subtree push --prefix out origin gh-pages",
+    "deploy:ghp": "next build && next export && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && cd $(git rev-parse --show-toplevel) && git push origin --delete gh-pages && /usr/bin/git subtree push --prefix src/client/out origin gh-pages",
     "test": "jest --watch"
   },
   "dependencies": {
