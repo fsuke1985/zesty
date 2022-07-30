@@ -6,6 +6,8 @@ import { useState } from "react";
 import React from 'react'
 import { loginrequest } from '~/service/auth';
 import { useForm, SubmitHandler} from 'react-hook-form';
+import {Button} from 'baseui/button';
+import {useStyletron} from 'baseui';
 
 type Inputs = {
   email: string,
@@ -19,6 +21,7 @@ const Login: NextPage = () => {
     const [validate, setValidate] = useState({});
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
+    const [css, theme] = useStyletron();
 
     const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
         return false
@@ -67,9 +70,8 @@ const Login: NextPage = () => {
                           placeholder="Password"
                           { ...register("password", { required: true, maxLength: 10})}
                         />
-                        <button
-                          type="button"
-                          className="btn btn-outline-primary btn-sm"
+                        <Button
+                          className={css({color: theme.colors.accent100})}
                           onClick={(e) => togglePassword(e)}
                         >
                           <i
@@ -77,7 +79,7 @@ const Login: NextPage = () => {
                               showPassword ? "far fa-eye" : "far fa-eye-slash"
                             }
                           ></i>{" "}
-                        </button>
+                        </Button>
                       </div>
                       {errors.password && <span>This field is required</span>}
                       <div className="extra mt-3 row justify-content-between">
@@ -103,12 +105,12 @@ const Login: NextPage = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <button
+                      <Button
                         type="submit"
-                        className="btn btn-primary w-100 theme-btn mx-auto"
+                        className={css({color: theme.colors.accent100, width: '100%'})}
                       >
                         Log In
-                      </button>
+                      </Button>
                     </div>
                   </form>
     
