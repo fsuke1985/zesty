@@ -1,13 +1,13 @@
 // @ts-nocheck
 import type { NextPage } from 'next'
-import Link from 'next/link'
-import Form from "../../utilities/Forms";
 import { useState } from "react";
 import React from 'react'
-import { loginrequest } from '~/service/auth';
 import { useForm, SubmitHandler} from 'react-hook-form';
 import {Button} from 'baseui/button';
 import {useStyletron} from 'baseui';
+import {useUser} from '~/hooks';
+
+
 
 type Inputs = {
   email: string,
@@ -22,10 +22,12 @@ const Login: NextPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
     const [css, theme] = useStyletron();
+    const {...context} = useUser();
 
     const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
-        return false
+      console.log(context)
     };
+    const onError = (error, e) => {}
   
     const togglePassword = (e: React.FormEvent<HTMLFormElement>) => {
       if (showPassword) {
@@ -49,7 +51,7 @@ const Login: NextPage = () => {
                   <form
                     className="auth-form"
                     method="POST"
-                    onSubmit={handleSubmit(authenticate)}
+                    onSubmit={handleSubmit(authenticate, onError)}
                     autoComplete={"off"}
                   >
                     <div className="email mb-3">
