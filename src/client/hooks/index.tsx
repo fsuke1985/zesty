@@ -1,1 +1,1 @@
-export { useUser } from './useUser'
+export { useUser, UserProvider } from './useUser'
