@@ -7,12 +7,11 @@ import type { AppProps } from 'next/app'
 import "../styles/auth.scss"
 import { UserProvider } from '~/hooks'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, ...props }: AppProps) {
 
-  const currentUser = {
-    name: "kousuke futamura",
-    age: 33
-  }
+  const {
+    currentUser
+  } = props
 
   return (
     <StyletronProvider value={styletron}>
@@ -23,6 +22,16 @@ function MyApp({ Component, pageProps }: AppProps) {
       </BaseProvider>
     </StyletronProvider>
   )
+}
+
+MyApp.getInitialProps = async (context: any) => {
+  console.log(context)
+
+  const appProps = await App.getInitialProps(context)
+
+  return {
+    ...appProps
+  }
 }
 
 export default MyApp
