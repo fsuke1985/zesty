@@ -1,11 +1,23 @@
 import * as React from 'react';
 import Document, {Head, Html, Main, NextScript} from 'next/document';
 import {Provider as StyletronProvider} from 'styletron-react';
-import {Server, Sheet} from 'styletron-engine-atomic';
-import {styletron} from '../styletron';
+import {Server} from 'styletron-engine-atomic';
+import {styletron} from '~/pages/styletron';
 
-class MyDocument extends Document<{stylesheets: Sheet[]}> {
-  static getInitialProps(props: any) {
+export type attrsT = {
+    "data-hydrate"?: "keyframes" | "font-face";
+    media?: string;
+    class?: string;
+  };
+export type sheetT = {
+    css: string;
+    attrs: attrsT;
+};
+
+class MyDocument extends Document<{stylesheets: sheetT[]}> {
+  static async getInitialProps(props: any) {
+    const initialProps = await Document.getInitialProps(props)
+
     // eslint-disable-next-line react/display-name
     const page = props.renderPage((App: any) => (props: any) => (
       <StyletronProvider value={styletron}>
@@ -13,7 +25,7 @@ class MyDocument extends Document<{stylesheets: Sheet[]}> {
       </StyletronProvider>
     ));
     const stylesheets = (styletron as Server).getStylesheets() || [];
-    return {...page, stylesheets};
+    return {...initialProps, ...page, stylesheets};
   }
 
   render() {
