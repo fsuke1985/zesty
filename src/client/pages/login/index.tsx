@@ -8,7 +8,6 @@ import {useStyletron} from 'baseui';
 import {useUser} from '~/hooks';
 
 
-
 type Inputs = {
   email: string,
   password: string
@@ -22,10 +21,11 @@ const Login: NextPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
     const [css, theme] = useStyletron();
-    const {...context} = useUser();
+    const {setUser} = useUser();
 
     const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
       console.log(context)
+      setUser({name: 'login user', age: 333})
     };
     const onError = (error, e) => {}
   

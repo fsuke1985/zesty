@@ -15,8 +15,6 @@ interface Props {
 export const UserProvider = (props: Props) => {
     const [user, setUser] = useState<User>(props?.currentUser);
 
-// debug props
-console.log(props)
     const value = {user, setUser};
     return <UserContext.Provider value={value} {...props} />
 }

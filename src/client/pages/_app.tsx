@@ -6,9 +6,12 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import "../styles/auth.scss"
 import { UserProvider } from '~/hooks'
+import { AnyRecordWithTtl } from 'dns';
 
-function MyApp({ Component, pageProps, ...props }: AppProps) {
-
+type propsT = AppProps & {
+  currentUser?: any
+}
+function MyApp({ Component, pageProps, router, ...props }: propsT) {
   const {
     currentUser
   } = props
@@ -25,7 +28,6 @@ function MyApp({ Component, pageProps, ...props }: AppProps) {
 }
 
 MyApp.getInitialProps = async (context: any) => {
-  console.log(context)
 
   const appProps = await App.getInitialProps(context)
 
