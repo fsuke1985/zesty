@@ -1,11 +1,12 @@
 // @ts-nocheck
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import { useState } from "react";
 import React from 'react'
 import { useForm, SubmitHandler} from 'react-hook-form';
 import {Button} from 'baseui/button';
 import {useStyletron} from 'baseui';
-import {useUser} from '~/hooks';
+import {useUser, User} from '~/hooks';
 
 
 type Inputs = {
@@ -21,11 +22,10 @@ const Login: NextPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
     const [css, theme] = useStyletron();
-    const {setUser} = useUser();
+    const userContext = useUser();
 
     const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
-      console.log(context)
-      setUser({name: 'login user', age: 333})
+      userContext.setUser({name: 'login user', age: 333} as User)
     };
     const onError = (error, e) => {}
   
@@ -119,9 +119,9 @@ const Login: NextPage = () => {
                   <hr />
                   <div className="auth-option text-center pt-2">
                     No Account?{" "}
-                    {/* <Link className="text-link" to="/register">
-                      Sign up{" "}
-                    </Link> */}
+                    <Link href="/">
+                      Top Page
+                    </Link>
                   </div>
                 </div>
               </div>

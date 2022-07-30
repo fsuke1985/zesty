@@ -5,21 +5,23 @@ import {styletron} from '~/pages/styletron';
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import "../styles/auth.scss"
-import { UserProvider } from '~/hooks'
-import { AnyRecordWithTtl } from 'dns';
+import { UserProvider, useUser } from '~/hooks'
 
 type propsT = AppProps & {
   currentUser?: any
 }
+
 function MyApp({ Component, pageProps, router, ...props }: propsT) {
+
   const {
     currentUser
   } = props
 
+  console.log("MyApp", currentUser)
   return (
     <StyletronProvider value={styletron}>
       <BaseProvider theme={LightTheme}>
-      <UserProvider currentUser={currentUser} >
+      <UserProvider currentUser={currentUser} {...pageProps} >
         <Component {...pageProps} />
         </UserProvider>
       </BaseProvider>

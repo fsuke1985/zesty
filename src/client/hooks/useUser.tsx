@@ -3,11 +3,12 @@ import { useRouter } from 'next/router'
 
 const UserContext = createContext({/* todo: initial data */});
 
-interface User {
+export interface User {
     name: string,
     age: number
 }
 interface Props {
+    pageProps: any,
     currentUser: User,
     children?: React.ReactNode
 }
