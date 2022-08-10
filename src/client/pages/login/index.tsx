@@ -1,13 +1,13 @@
 // @ts-nocheck
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import Form from "../../utilities/Forms";
 import { useState } from "react";
 import React from 'react'
-import { loginrequest } from '~/service/auth';
 import { useForm, SubmitHandler} from 'react-hook-form';
 import {Button} from 'baseui/button';
 import {useStyletron} from 'baseui';
+import {useUser, User} from '~/hooks';
+
 
 type Inputs = {
   email: string,
@@ -22,10 +22,12 @@ const Login: NextPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
     const [css, theme] = useStyletron();
-
+    const userContext = useUser();
+console.log(userContext.user)
     const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
-        return false
+      userContext.setUser({name: 'login user', age: 333} as User)
     };
+    const onError = (error, e) => {}
   
     const togglePassword = (e: React.FormEvent<HTMLFormElement>) => {
       if (showPassword) {
@@ -49,7 +51,7 @@ const Login: NextPage = () => {
                   <form
                     className="auth-form"
                     method="POST"
-                    onSubmit={handleSubmit(authenticate)}
+                    onSubmit={handleSubmit(authenticate, onError)}
                     autoComplete={"off"}
                   >
                     <div className="email mb-3">
@@ -117,9 +119,9 @@ const Login: NextPage = () => {
                   <hr />
                   <div className="auth-option text-center pt-2">
                     No Account?{" "}
-                    {/* <Link className="text-link" to="/register">
-                      Sign up{" "}
-                    </Link> */}
+                    <Link href="/">
+                      Top Page
+                    </Link>
                   </div>
                 </div>
               </div>

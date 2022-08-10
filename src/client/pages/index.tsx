@@ -3,8 +3,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import {useUser} from '~/hooks'
 
 const Home: NextPage = () => {
+  const userContext = useUser();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -20,6 +23,7 @@ const Home: NextPage = () => {
         <Link href="/login">
           <a>LoginPage</a>
         </Link>
+        
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
