@@ -23,7 +23,7 @@ const Login: NextPage = () => {
     const { register, handleSubmit, watch, formState: { errors }} = useForm<Inputs>();
     const [css, theme] = useStyletron();
     const userContext = useUser();
-
+console.log(userContext.user)
     const authenticate: SubmitHandler<Inputs> = (data: Inputs) => {
       userContext.setUser({name: 'login user', age: 333} as User)
     };
